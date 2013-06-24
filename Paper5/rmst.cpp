@@ -1,25 +1,24 @@
 #include "sdk.h"
 #include "rmst.h"
+#include <cassert>
+#include <algorithm>
+using namespace std;
 
-namespace sdk {
-    using ::Edge;
-}   // namespace sdk
 namespace Guo {
 class Edge {
-    Edge(const Edge&);
 public:
     sdk::Edge *edge;
-    int Mandis;
-    double Eucdis;
-    Edge(const V_Position &v, const sdk::Edge &e) {
+    int Mandist;
+    double Eucdist;
+    Edge(const V_Position &v, sdk::Edge &e) {
         edge = &e;
-        Mandis = Man::dis(v[e.u], v[e.v]);
-        Eucdis = Euc::dis(v[e.u], v[e.v]);
+        Mandist = Man::dist(v[e.u], v[e.v]);
+        Eucdist = Euc::dist(v[e.u], v[e.v]);
     }
     ~Edge() {}
-}
+};
 bool cmp(const Edge &e1, const Edge &e2) {
-    return (e1.Mandis < e2.Mandis) || (e1.Mandis == e2.Mandis && e1.Eucdis < e2.Eucdis);
+    return (e1.Mandist < e2.Mandist) || (e1.Mandist == e2.Mandist && e1.Eucdist < e2.Eucdist);
 }
 int find(int root[], const int &leaf) {
     while (root[leaf] != root[root[leaf]])
@@ -27,7 +26,6 @@ int find(int root[], const int &leaf) {
     return root[leaf];
 }
 }   // namespace Guo
-using namespace std;
 
 void RMST(const V_Position &vertex, V_Edge &edge)  // You can modify variable names if you like
 {
@@ -36,19 +34,19 @@ void RMST(const V_Position &vertex, V_Edge &edge)  // You can modify variable na
     for (int i = 0; i < edge.size(); i++)
         assert(edge[i].size() > 0);
 
-    vector<Guo::Edge> heap();
+    vector<Guo::Edge> heap;
     for (int i = 0; i < edge.size(); i++)
         for (int j = 0; j < edge[i].size(); j++)
             heap.push_back(Guo::Edge(vertex, edge[i][j]));
 
-    sort(heap.begin(), heap.end(), cmp);
+    sort(heap.begin(), heap.end(), Guo::cmp);
 
     int root[vertex.size()];
     for (int i = 0; i < vertex.size(); i++)
         root[i] = i;
 
     for (int i = 0; i < heap.size(); i++) {
-        sdk::Edge &e = *heap[i].e;
+        sdk::Edge &e = *heap[i].edge;
 
         using Guo::find;
         if (find(root, e.u) != find(root, e.v)) {
