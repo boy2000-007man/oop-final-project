@@ -31,13 +31,13 @@ int find(int root[], const int &leaf) {
 
 void RMST(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modify variable names if you like
 {
-#ifdef TEST
+    #ifdef TEST
     assert(vertex.size() > 0);
     assert(edge.size() > 0);
     for (int i = 0; i < edge.size(); i++)
         assert(edge[i].size() > 0);
     assert(face.size() > 0);
-#endif
+    #endif
 
     vector<Guo::Edge> heap;
     for (int i = 0; i < edge.size(); i++)
@@ -52,16 +52,20 @@ void RMST(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modi
 
     for (int i = 0; i < heap.size(); i++) {
         sdk::Edge &e = *heap[i].edge;
-        sdk::Edge &f_e = *find(face[e.u].e.begin(), face[e.u].e.end(), e);
+        sdk::Edge &f2_e = *find(face[e.f2].e.begin(), face[e.f2].e.end(), e);
+        sdk::Edge &r_e;
+        r_e.u = e.v;
+        r_e.v = e.u;
+        sdk::Edge &f1_e = *find(face[e.f1].e.begin(), face[e.f1].e.end(), e);
 
         if (Guo::find(root, e.u) != Guo::find(root, e.v)) {
-            e.ins = f_e.ins = 1;
+            e.ins = f1_e.ins = f2_e.ins = 1;
             if (e.u < e.v)
                 root[e.v] = root[e.u];
             else
                 root[e.u] = root[e.v];
         } else
-            e.ins = f_e.ins = 0;
+            e.ins = f1_e.ins = f2_e.ins = 0;
     }
 }
 
