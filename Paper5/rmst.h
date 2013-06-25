@@ -3,7 +3,7 @@
 
 #include "sdk.h"
 
-void RMST(const V_Position &vertex, V_Edge &edge);
+void RMST(const V_Position &vertex, V_Edge &edge, V_Face &face);
 
 #endif
 
