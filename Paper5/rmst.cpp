@@ -53,7 +53,7 @@ void RMST(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modi
     for (int i = 0; i < heap.size(); i++) {
         sdk::Edge &e = *heap[i].edge;
         sdk::Edge &f2_e = *find(face[e.f2].e.begin(), face[e.f2].e.end(), e);
-        sdk::Edge &r_e;
+        sdk::Edge r_e;
         r_e.u = e.v;
         r_e.v = e.u;
         sdk::Edge &f1_e = *find(face[e.f1].e.begin(), face[e.f1].e.end(), e);
