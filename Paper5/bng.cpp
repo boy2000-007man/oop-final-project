@@ -65,6 +65,9 @@ void BNG(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modif
             const Position &p_u = vertex[part.u];
             const Position &p_v = vertex[part.v];
 
+            #ifndef NULL
+            #define NULL 0
+            #endif
             #undef DEL_EDGE
             #define DEL_EDGE(e) \
                 if (e.link != NULL) \
