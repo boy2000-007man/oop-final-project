@@ -40,7 +40,7 @@ const double Lowest_Improvement_Factor = 0.99;  // Check wheather the solution c
 
 bool operator == (const Edge &e1, const Edge &e2);
 bool operator != (const Edge &e1, const Edge &e2);
-bool operator == (const Face &f1, const Face &f2);
+bool operator == (const Face &f1, const Face &f2);              // this == is special, must be careful
 bool operator == (const Position &p1, const Position &p2);        // Compare wheather p1 == p2
 bool operator != (const Position &p1, const Position &p2);        // Compare wheather p1 != p2
 namespace Euclidean {
