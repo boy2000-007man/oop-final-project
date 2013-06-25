@@ -13,4 +13,4 @@ rmst.o:rmst.cpp rmst.h sdk.h
 polygonal_contraction.o:polygonal_contraction.cpp polygonal_contraction.h sdk.h
 	g++ -c polygonal_contraction.cpp -o polygonal_contraction.o
 clean:
-	rm *.o
+	rm *.o main

@@ -50,7 +50,7 @@ int Manhattan::dist(const Position &p1, const Position &p2)
 	if (tmp2 < 0) tmp2 = -tmp2;
 	return tmp1+tmp2;
 }
-int judge_region_number(const Position &p1, const Position &p2)
+int sdk::judge_region_number(const Position &p1, const Position &p2)
 {
 	if (p1 == p2) return -1;
 	if (p2.y-p2.x < p1.y-p1.x && p2.x+p2.y >= p1.x+p1.y) return 0;
@@ -59,7 +59,7 @@ int judge_region_number(const Position &p1, const Position &p2)
 	return 3;
 	//if (p2.x+p2.y < p1.x+p1.y && p2.y-p2.x <= p1.y-p1.x) return 3;
 }
-bool Check_The_Graph(V_Position &vertex, V_Edge &edge, V_Face &face)
+bool sdk::Check_The_Graph(V_Position &vertex, V_Edge &edge, V_Face &face)
 {
 	int e = 0, n = vertex.size(), f = face.size();
 	for (int i = 0; i < n; i++) e += edge[i].size();
