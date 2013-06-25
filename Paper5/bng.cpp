@@ -1,6 +1,8 @@
 #include "sdk.h"
 #include "bng.h"
+#ifdef TEST
 #include <cassert>
+#endif
 #include <cmath>
 using namespace std;
 
@@ -40,11 +42,13 @@ void merge(V_Face &face, const Edge e) {
 
 void BNG(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modify variable names if you like
 {
+    #ifdef TEST
     assert(vertex.size() > 0);
     assert(edge.size() > 0);
     for (int i = 0; i < edge.size(); i++)
         assert(edge[i].size() > 0);
     assert(face.size() > 0);
+    #endif
 
     Edge PART[vertex.size()][4];
     for (int i = 0; i < vertex.size(); i++)
@@ -63,8 +67,9 @@ void BNG(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modif
 
             #undef DEL_EDGE
             #define DEL_EDGE(e) \
+                if (e.link != NULL) \
+                    e.link->link = NULL; \
                 Guo::del(edge[e.u], e);\
-                Guo::del(edge[e.v], e);\
                 Guo::merge(face, e)
             if (part.u == -1) {
                 part = e;
