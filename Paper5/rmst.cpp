@@ -1,6 +1,8 @@
 #include "sdk.h"
 #include "rmst.h"
+#ifdef TEST
 #include <cassert>
+#endif
 #include <algorithm>
 using namespace std;
 
@@ -27,12 +29,15 @@ int find(int root[], const int &leaf) {
 }
 }   // namespace Guo
 
-void RMST(const V_Position &vertex, V_Edge &edge)  // You can modify variable names if you like
+void RMST(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modify variable names if you like
 {
+#ifdef TEST
     assert(vertex.size() > 0);
     assert(edge.size() > 0);
     for (int i = 0; i < edge.size(); i++)
         assert(edge[i].size() > 0);
+    assert(face.size() > 0);
+#endif
 
     vector<Guo::Edge> heap;
     for (int i = 0; i < edge.size(); i++)
@@ -47,16 +52,16 @@ void RMST(const V_Position &vertex, V_Edge &edge)  // You can modify variable na
 
     for (int i = 0; i < heap.size(); i++) {
         sdk::Edge &e = *heap[i].edge;
+        sdk::Edge &f_e = *find(face[e.u].e.begin(), face[e.u].e.end(), e);
 
-        using Guo::find;
-        if (find(root, e.u) != find(root, e.v)) {
-            e.ins = 1;
+        if (Guo::find(root, e.u) != Guo::find(root, e.v)) {
+            e.ins = f_e.ins = 1;
             if (e.u < e.v)
                 root[e.v] = root[e.u];
             else
                 root[e.u] = root[e.v];
         } else
-            e.ins = 0;
+            e.ins = f_e.ins = 0;
     }
 }
 
