@@ -111,7 +111,7 @@ int main()
 		// Compute variables: edge[][].ins
 		// Attention: Do not modify vertex and other elements except .ins in edge[][]. This step is relatively easy, so you'd better to try using O(n) algorithm to compute spanning tree of the plannar graph, see more in [18] in the paper.
 		// Achieve it in rmst.cpp
-		RMST(vertex, edge);
+		RMST(vertex, edge, face);
 
 		// Do polygonal contraction as in Algorithm 2.
 		// Input variables: vertex, edge, face
