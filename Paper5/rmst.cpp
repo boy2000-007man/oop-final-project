@@ -22,7 +22,7 @@ public:
 bool cmp(const Edge &e1, const Edge &e2) {
     return (e1.Mandist < e2.Mandist) || (e1.Mandist == e2.Mandist && e1.Eucdist < e2.Eucdist);
 }
-int find(int root[], const int &leaf) {
+int find(int root[], const int &leaf) {             // used to find and renew specific leaf's root
     while (root[leaf] != root[root[leaf]])
         root[leaf] = root[root[leaf]];
     return root[leaf];
@@ -44,7 +44,7 @@ void RMST(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modi
         for (int j = 0; j < edge[i].size(); j++)
             heap.push_back(Guo::Edge(vertex, edge[i][j]));
 
-    sort(heap.begin(), heap.end(), Guo::cmp);
+    sort(heap.begin(), heap.end(), Guo::cmp);           // this should be sort increase
 
     int root[vertex.size()];
     for (int i = 0; i < vertex.size(); i++)
