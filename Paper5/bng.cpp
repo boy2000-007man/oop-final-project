@@ -7,15 +7,21 @@
 using namespace std;
 
 namespace Guo {
-template <class T>
-void del(vector<T> &v_t, const T t) {
-    for (typename vector<T>::iterator it = v_t.begin(); it != v_t.end(); )
+void del(vector<Edge> &v_t, const Edge t) {         // delete the specific edge in the vector
+    for (vector<Edge>::iterator it = v_t.begin(); it != v_t.end(); )
         if (*it == t)
             it = v_t.erase(it);
         else
             it++;
 }
-void merge(V_Face &face, const Edge e) {
+void clean(V_Face &face) {                          // delete empty face in V_Face
+    for (V_Face::iterator it = face.begin(); it != face.end(); )
+        if (it->e.size() == 0)
+            it = face.erase(it);
+        else
+            it++;
+}
+void merge(V_Face &face, const Edge e) {            // merge face f1 && f2 of the deleted edge
     Face &f1 = face[e.f1];
     Face &f2 = face[e.f2];
     Face f;
@@ -36,7 +42,7 @@ void merge(V_Face &face, const Edge e) {
         f2 = f;
         f1 = Face();
     }
-    del(face, Face());
+    clean(face);
 }
 }   // namespace Guo
 
