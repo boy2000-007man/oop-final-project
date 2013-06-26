@@ -1,3 +1,10 @@
+/*****************************************************************
+* Author        : B
+* Email         : boy2000_007man@163.com
+* Last modified : 2013-06-26 11:03
+* Filename      : bng.cpp
+* Description   : 
+*****************************************************************/
 #include "sdk.h"
 #include "bng.h"
 #ifdef TEST

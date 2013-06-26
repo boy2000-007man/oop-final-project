@@ -12,6 +12,7 @@ class Position
 	Position() {}
 	Position(int i, int j) : x(i), y(j) {}
 	~Position() {}
+	int det(Position, Position);
 };
 class Edge
 {
@@ -29,9 +30,10 @@ class Face
 {
 	public:
 	std::vector <Edge> e; // Edges in counterclockwise in the polygonal face
-	Face() {}
+	Face() { e.clear(); }
 	~Face() { e.clear(); }
 };
+typedef long long LL;
 typedef std::vector < Position > V_Position;
 typedef std::vector < std::vector < Edge > > V_Edge;
 typedef std::vector < Face > V_Face;
@@ -40,7 +42,7 @@ const double Lowest_Improvement_Factor = 0.99;  // Check wheather the solution c
 
 bool operator == (const Edge &e1, const Edge &e2);
 bool operator != (const Edge &e1, const Edge &e2);
-bool operator == (const Face &f1, const Face &f2);              // this == is special, must be careful
+bool operator == (const Face &f1, const Face &f2);
 bool operator == (const Position &p1, const Position &p2);        // Compare wheather p1 == p2
 bool operator != (const Position &p1, const Position &p2);        // Compare wheather p1 != p2
 namespace Euclidean {

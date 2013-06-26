@@ -12,7 +12,7 @@ bool sdk::operator != (const Edge &e1, const Edge &e2) {
     return !(e1 == e2);
 }
 bool sdk::operator == (const Face &f1, const Face &f2) {
-    return f1.e == f2.e;
+	return f1.e.size() == f2.e.size();
 }
 bool sdk::operator == (const Position &p1, const Position &p2) {        // Compare wheather p1 == p2
     return (p1.x == p2.x) && (p1.y == p2.y);
@@ -20,12 +20,18 @@ bool sdk::operator == (const Position &p1, const Position &p2) {        // Compa
 bool sdk::operator != (const Position &p1, const Position &p2) {        // Compare wheather p1 != p2
     return !(p1 == p2);
 }
-Edge::Edge() : link(NULL) {}
-Edge::Edge(const Edge &e) : link(NULL) {
+int sdk::Position::det(Position a, Position b) {
+    LL ret = (LL) (a.x - x) * (b.y - y) - (LL) (b.x - x) * (a.y - y);
+    if (ret == 0) return 0;
+    if (ret > 0) return 1;
+    return -1;
+}
+sdk::Edge::Edge() : link(NULL) {}
+sdk::Edge::Edge(const Edge &e) : link(NULL) {
     *this = e;
 }
-Edge::~Edge() {}
-Edge& Edge::operator = (const Edge &e) {
+sdk::Edge::~Edge() {}
+sdk::Edge& Edge::operator = (const Edge &e) {
     if (this == &e)
         return *this;
     this->u = e.u;
@@ -36,13 +42,13 @@ Edge& Edge::operator = (const Edge &e) {
     this->ins = e.ins;
     return *this;
 }
-double Euclidean::dist(const Position &p1, const Position &p2)
+double sdk::Euclidean::dist(const Position &p1, const Position &p2)
 {
 	const int dx = p1.x - p2.x;
 	const int dy = p1.y - p2.y;
 	return sqrt(dx * dx + dy * dy);
 }
-int Manhattan::dist(const Position &p1, const Position &p2)
+int sdk::Manhattan::dist(const Position &p1, const Position &p2)
 {
 	int tmp1 = p1.x-p2.x;
 	int tmp2 = p1.y-p2.y;

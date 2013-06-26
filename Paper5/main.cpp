@@ -13,15 +13,16 @@
  */
 
 // This is the main program
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <vector>
 #include "sdk.h"
 #include "delaunay_triangulation.h"
 #include "bng.h"
 #include "rmst.h"
 #include "polygonal_contraction.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <cstdlib>
 using namespace std;
 
 const string Read_In_File_Name = "input.txt";
@@ -72,7 +73,6 @@ int main()
 			}
 		}
 	*/
-
 
 	// Readin steps
 	// All points will be saved in vertex
