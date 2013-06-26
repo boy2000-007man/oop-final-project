@@ -110,9 +110,8 @@ void BNG(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modif
 
             #undef DEL_EDGE
             #define DEL_EDGE(e) \
-                if (e.link != NULL)\
-                    e.link->link = NULL;\
                 Guo::del(edge[e.u], e);\
+                Guo::del(edge[e.v], e);\
                 Guo::merge(face, e)
             if (part.u == -1) {
                 part = e;

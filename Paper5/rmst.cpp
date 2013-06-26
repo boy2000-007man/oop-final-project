@@ -61,13 +61,13 @@ void RMST(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modi
         sdk::Edge &e = *heap[i].edge;
 
         if (Guo::find(root, e.u) != Guo::find(root, e.v)) {
-            e.ins = 1;
+            e.ins = e.link->ins = 1;
             if (e.u < e.v)
                 root[e.v] = root[e.u];
             else
                 root[e.u] = root[e.v];
         } else
-            e.ins = 0;
+            e.ins = e.link->ins = 0;
 
         if (e.f1 == e.f2) {
             if (e.f1 != face.size() - 1) {
