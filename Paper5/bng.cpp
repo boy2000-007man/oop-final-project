@@ -1,75 +1,102 @@
-/*****************************************************************
-* Author        : B
-* Email         : boy2000_007man@163.com
-* Last modified : 2013-06-26 11:03
-* Filename      : bng.cpp
-* Description   : 
-*****************************************************************/
 #include "sdk.h"
 #include "bng.h"
-#ifdef TEST
-#include <cassert>
-#endif
 #include <cmath>
+#include <algorithm>
+#include <cassert>
+#define TEST
 using namespace std;
 
+#include <iostream>
+void swap(Edge &x, Edge &y)
+{
+	swap(x.u, y.u);
+	swap(x.v, y.v);
+	swap(x.f1, y.f1);
+	swap(x.f2, y.f2);
+	swap(x.len, y.len);
+	Edge *ret = x.link;
+	x.link = y.link;
+	y.link = ret;
+}
 namespace Guo {
-void del(vector<Edge> &v_t, const Edge t) {         // delete the specific edge in the vector
+void del(vector<Edge> &v_t, const Edge t) {
     for (vector<Edge>::iterator it = v_t.begin(); it != v_t.end(); )
-        if (*it == t)
-            it = v_t.erase(it);
+        if (*it == t) {
+			Edge ooo;
+			(*((*(v_t.end()-1)).link)).link = &(*it);
+			swap(*it, *(v_t.end()-1));
+			v_t.erase(v_t.end()-1);
+		}
         else
             it++;
 }
-void clean(V_Face &face) {                          // delete empty face in V_Face
-    for (V_Face::iterator it = face.begin(); it != face.end(); )
-        if (it->e.size() == 0)
-            it = face.erase(it);
-        else
-            it++;
+int min(const int &a, const int &b) {
+    return a < b ? a : b;
 }
-void merge(V_Face &face, const Edge e) {            // merge face f1 && f2 of the deleted edge
-    Face &f1 = face[e.f1];
-    Face &f2 = face[e.f2];
+int max(const int &a, const int &b) {
+    return a > b ? a : b;
+}
+void merge(V_Face &face, const Edge e) {
+    if (e.f1 == e.f2) {                     // if f1 == f2
+        if (e.f1 != face.size() - 1)        // if f1 is not the out face, then del the edge in f1
+            del(face[e.f1].e, e);
+        return ;
+    }
+    Face &f_min = face[min(e.f1, e.f2)];
+    Face &f_max = face[max(e.f1, e.f2)];
     Face f;
-    for (int i = 0; i < f1.e.size(); i++)
-        if (f1.e[i] != e)
-            f.e.push_back(f1.e[i]);
+    for (int i = 0; i < f_min.e.size(); i++)
+        if (f_min.e[i] != e)
+            f.e.push_back(f_min.e[i]);
         else {
             int loc = 0;
-            while (f2.e[loc] != e)
-                loc++;
-            for (int j = 1; j < f2.e.size(); j++)
-                f.e.push_back(f2.e[(loc + j) % f2.e.size()]);
+            if (f_max.e.size() != 0)
+                while (f_max.e[loc] != e)
+                    loc++;
+            for (int j = 1; j < f_max.e.size(); j++)
+                f.e.push_back(f_max.e[(loc + j) % f_max.e.size()]);
         }
-    if (e.f1 > e.f2) {
-        f1 = f;
-        f2 = Face();
-    } else {
-        f2 = f;
-        f1 = Face();
-    }
-    clean(face);
+    f_min = Face();
+    if (max(e.f1, e.f2) == face.size() - 1)
+        f_max = Face();
+    else
+        f_max = f;
+	for (V_Face::iterator it = face.begin(); it != face.end() - 1; it++) // avoid delete the out face
+		if ((*it).e.size() == 0) {
+			face.erase(it);
+			break;
+		}
 }
 }   // namespace Guo
 
 void BNG(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modify variable names if you like
 {
-    #ifdef TEST
+#ifdef TEST
+	cerr << "assert vertex, edge and face..." << endl;
     assert(vertex.size() > 0);
     assert(edge.size() > 0);
     for (int i = 0; i < edge.size(); i++)
         assert(edge[i].size() > 0);
     assert(face.size() > 0);
-    #endif
+	cerr << "assert end!" << endl;
+#endif
 
     Edge PART[vertex.size()][4];
+#ifdef TEST
+	cerr << "size of PART[][4]" << sizeof(PART)/sizeof(Edge) << endl;
+#endif
     for (int i = 0; i < vertex.size(); i++)
         for (int j = 0; j < 4; j++)
             PART[i][j].u = -1;
 
+#ifdef TEST
+	cerr << "Making BNG..." << endl;
+#endif
     for (int i = 0; i < edge.size(); i++)
         for (int j = 0; j < edge[i].size(); j++) {
+#ifdef TEST
+            cerr << "Start value init..." << endl;
+#endif
             const Edge e = edge[i][j];
             const Position &e_u = vertex[e.u];
             const Position &e_v = vertex[e.v];
@@ -77,14 +104,14 @@ void BNG(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modif
             Edge &part = PART[i][r];
             const Position &p_u = vertex[part.u];
             const Position &p_v = vertex[part.v];
+#ifdef TEST
+            cerr << "value init finished." << endl;
+#endif
 
-            #ifndef NULL
-            #define NULL 0
-            #endif
             #undef DEL_EDGE
             #define DEL_EDGE(e) \
-                if (e.link != NULL) \
-                    e.link->link = NULL; \
+                if (e.link != NULL)\
+                    e.link->link = NULL;\
                 Guo::del(edge[e.u], e);\
                 Guo::merge(face, e)
             if (part.u == -1) {

@@ -7,9 +7,7 @@
 *****************************************************************/
 #include "sdk.h"
 #include "rmst.h"
-#ifdef TEST
 #include <cassert>
-#endif
 #include <algorithm>
 using namespace std;
 
@@ -38,13 +36,15 @@ int find(int root[], const int &leaf) {             // used to find and renew sp
 
 void RMST(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modify variable names if you like
 {
-    #ifdef TEST
+#ifdef TEST
+    cerr << "assert vertex, edge and face..." << endl;
     assert(vertex.size() > 0);
     assert(edge.size() > 0);
-    for (int i = 0; i < edge.size(); i++)
+    for (int i = 0; i < edge.size() - 1; i++)
         assert(edge[i].size() > 0);
     assert(face.size() > 0);
-    #endif
+    cerr << "assert finished." << endl;
+#endif
 
     vector<Guo::Edge> heap;
     for (int i = 0; i < edge.size(); i++)
@@ -59,20 +59,39 @@ void RMST(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modi
 
     for (int i = 0; i < heap.size(); i++) {
         sdk::Edge &e = *heap[i].edge;
-        sdk::Edge &f2_e = *find(face[e.f2].e.begin(), face[e.f2].e.end(), e);
-        sdk::Edge r_e;
-        r_e.u = e.v;
-        r_e.v = e.u;
-        sdk::Edge &f1_e = *find(face[e.f1].e.begin(), face[e.f1].e.end(), e);
 
         if (Guo::find(root, e.u) != Guo::find(root, e.v)) {
-            e.ins = f1_e.ins = f2_e.ins = 1;
+            e.ins = 1;
             if (e.u < e.v)
                 root[e.v] = root[e.u];
             else
                 root[e.u] = root[e.v];
         } else
-            e.ins = f1_e.ins = f2_e.ins = 0;
+            e.ins = 0;
+
+        if (e.f1 == e.f2) {
+            if (e.f1 != face.size() - 1) {
+                vector<Edge>::iterator e1 = find(face[e.f1].e.begin(), face[e.f1].e.end(), e);
+                assert(e1 != face[e.f1].e.end());
+                vector<Edge>::iterator e2 = find(e1 + 1, face[e.f1].e.end(), e);
+                assert(e2 != face[e.f1].e.end());
+
+                e1->ins = e2->ins = e.ins;
+            }
+        } else {
+            if (e.f1 != face.size() - 1) {
+                vector<Edge>::iterator e1 = find(face[e.f1].e.begin(), face[e.f1].e.end(), e);
+                assert(e1 != face[e.f1].e.end());
+
+                e1->ins = e.ins;
+            }
+            if (e.f2 != face.size() - 1) {
+                vector<Edge>::iterator e2 = find(face[e.f2].e.begin(), face[e.f2].e.end(), e);
+                assert(e2 != face[e.f2].e.end());
+
+                e2->ins = e.ins;
+            }
+        }
     }
 }
 
