@@ -14,7 +14,7 @@ PackingCommand.o: PackingCommand.cpp PackingCommand.h
 Rect.o: Rect.cpp Rect.h
 SPPackingCommand.o: SPPackingCommand.cpp SPPackingCommand.h
 SPPackingStrategy.o: SPPackingStrategy.cpp SPPackingStrategy.h
-main.o: main.cpp sdk.h SPPackingStrategy.h
+main.o: main.cpp SPPackingStrategy.h SPPackingCommand.h Layout.h sdk.h
 
 .PHONY: clean
 clean:
