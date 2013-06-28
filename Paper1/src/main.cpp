@@ -1,14 +1,13 @@
-#include "GraphPacking.h"
+#include "SPPackingStrategy.h"
+#include "SPPackingCommand.h"
+#include "Layout.h"
 #include "sdk.h"
 #include <fstream>
+#include <iostream>
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
 using namespace std;
-
-double random() {
-    return (rand() % 999 + 1.0) / 1000;
-}
 
 int main() {
     srand(time(NULL));
@@ -21,9 +20,10 @@ int main() {
     RECTPACKING::Layout layout;
     layout.getRects() = v_rects.getRects();
     RECTPACKING::SPPackingStrategy spps;
+    layout.setPackingStrategy(&spps);
     spps.initialPacking(layout);
-    RECTPACKING::SPPackingCommand *sppc = spps.getPackingCommand();
-    vectory<int> s1, s2;
+    RECTPACKING::PackingCommand *sppc = spps.getPackingCommand();
+    vector<int> s1, s2;
     sppc->getS1(s1);
     sppc->getS2(s2);
 
@@ -37,7 +37,7 @@ int main() {
         double J2 = layout.compArea();
         double dE = J1 - J2;
 
-        if (dE < 0 && exp(dE / T) < random()) {
+        if (dE < 0 && exp(dE / T) < sdk::random()) {
             sppc->setS1(s1);
             sppc->setS2(s2);
         } else {
