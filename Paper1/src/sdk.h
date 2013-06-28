@@ -24,3 +24,4 @@ public:
     }
 }   // class V_Rect
 }   // namespace sdk
+#endif
