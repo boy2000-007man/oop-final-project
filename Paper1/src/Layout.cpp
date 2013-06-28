@@ -69,4 +69,17 @@ ostream & operator << (ostream &out, Layout &l)
   return out;
 }
 
+istream & operator >> (istream &in, Layout &l)
+{
+  int num;
+  in >> num;
+  RECTPACKING::Rect tmp;
+  for (int i = 0; i < num; i++) {
+    in >> tmp.width >> tmp.height;
+    l.m_rects.push_back(tmp);
+  }
+
+  return in;
+}
+
 }

@@ -1,6 +1,6 @@
 #ifndef __SP_LAYOUT_H__
 #define __SP_LAYOUT_H__
-#include <ostream>
+#include <iostream>
 #include <vector>
 #include <utility>
 #include "Rect.h"
@@ -28,6 +28,7 @@ public:
   }
   void compConstraints(std::vector<std::pair<int, int> > &horCons, std::vector<std::pair<int, int> > &verCons);
   friend std::ostream & operator << (std::ostream &out, Layout &l);
+  friend std::istream & operator >> (std::istream &in, Layout &l);
   float compArea();
 
 private:
