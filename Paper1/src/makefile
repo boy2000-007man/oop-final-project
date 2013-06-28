@@ -1,6 +1,6 @@
 CC = g++
 CCFLAGS = -c -g
-objects = GraphPacking.o Layout.o PackingCommand.o Rect.o SPPackingCommand.o SPPackingStrategy.o
+objects = GraphPacking.o Layout.o PackingCommand.o Rect.o SPPackingCommand.o SPPackingStrategy.o main.o
 
 .cpp.o:
 	$(CC) $< $(CCFLAGS) -o $@ 
@@ -14,6 +14,7 @@ PackingCommand.o: PackingCommand.cpp PackingCommand.h
 Rect.o: Rect.cpp Rect.h
 SPPackingCommand.o: SPPackingCommand.cpp SPPackingCommand.h
 SPPackingStrategy.o: SPPackingStrategy.cpp SPPackingStrategy.h
+main.o: main.cpp sdk.h SPPackingStrategy.h
 
 .PHONY: clean
 clean:
