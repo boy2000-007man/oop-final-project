@@ -12,7 +12,9 @@ using namespace std;
 
 void SPPackingCommand::interpretToLayout(Layout &layout)
 {
+  #ifdef __OUT__
   cout << "In SPPackingCommand::interpretToLayout" << endl;
+  #endif
   //build position map
   int length = m_s1.size();
   vector<int> s1(length, 0), s2(length, 0);

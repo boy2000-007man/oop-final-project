@@ -48,12 +48,16 @@ static void OneDirectionPacking(vector<pair<int, int> > &cons, Layout &layout, b
   {
     for (int i = 0; i < rectNum; ++ i)
     {
+        #ifdef __OUT__
         cout << "Add edge <" << sourceId << "," << i << "> " << -rects[i].width << endl;
+        #endif
         d[sourceId][i] = -rects[i].width;
     }
     for (int i = 0; i < (int)cons.size(); ++ i)
     {
+        #ifdef __OUT__
         cout << "Add edge <" << cons[i].first << "," << cons[i].second << "> " << -rects[cons[i].second].width << endl;
+        #endif
         d[cons[i].first][cons[i].second] = -rects[cons[i].second].width;
     }
   }
@@ -61,22 +65,32 @@ static void OneDirectionPacking(vector<pair<int, int> > &cons, Layout &layout, b
   {
     for (int i = 0; i < rectNum; ++ i)
     {
+        #ifdef __OUT__
         cout << "Add edge <" << sourceId << "," << i << "> " << -rects[i].height << endl;
+        #endif
         d[sourceId][i] = -rects[i].height;
     }
     for (int i = 0; i < (int)cons.size(); ++ i)
     {
+        #ifdef __OUT__
         cout << "Add edge <" << cons[i].first << "," << cons[i].second << "> " << -rects[cons[i].second].height << endl;
+        #endif
         d[cons[i].first][cons[i].second] = -rects[cons[i].second].height;
     }
   }
+  #ifdef __OUT__
   cout << "Finished building the directed graph (adjacency matrix) with " << num_nodes << " vertices and " << num_nodes*num_nodes << " edges" << endl;
+  #endif
   FloydWarshallShortestPath(d, num_nodes);
   for (int i = 0; i < rectNum; ++ i)
   {
+      #ifdef __OUT__
       std::cout << "dii " << d[i][i] << endl;
+      #endif
       int dis = -d[sourceId][i];
+      #ifdef __OUT__
       std::cout << "Rect " << i << ": " << dis << endl;
+      #endif
       if (hor)
       {
         rects[i].lb.x = dis-rects[i].width;
@@ -94,12 +108,18 @@ static void OneDirectionPacking(vector<pair<int, int> > &cons, Layout &layout, b
 
 void LongestGraphPacking(vector<pair<int, int> > &horCons, vector<pair<int, int> > &verCons, Layout &layout)
 {
+  #ifdef __OUT__
   cout << "In LongestGraphPacking " << endl;
+  #endif
   bool hor = true;
+  #ifdef __OUT__
   cout << "========== horizontal ==========" << endl;
+  #endif
   OneDirectionPacking(horCons, layout, hor);
   hor = false;
+  #ifdef __OUT__
   cout << "========== vertical ==========" << endl;
+  #endif
   OneDirectionPacking(verCons, layout, hor);
 }
 

@@ -22,13 +22,17 @@ void SPPackingStrategy::initialPacking(Layout &layout)
   random_shuffle(s1.begin(), s1.end());
   random_shuffle(s2.begin(), s2.end());
   SPPackingCommand *spcmd = new SPPackingCommand(s1, s2);
+  #ifdef __OUT__
   cout << "Packing Command in SPPackingStrategy::initialPacking" << endl;
   cout << *spcmd;
+  #endif
 
   setPackingCommand(spcmd);
   spcmd->interpretToLayout(layout);
+  #ifdef __OUT__
   cout << "Layout after SPPackingStrategy::initialPacking" << endl;
   cout << layout;
+  #endif
 }
 
 void SPPackingStrategy::nextPackingCommand()

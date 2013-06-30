@@ -15,10 +15,8 @@ public:
   virtual void interpretToLayout(Layout &layout) = 0;
   virtual void dump(std::ostream &out) = 0;
   virtual void next() = 0;
-  virtual void getS1(std::vector<int> &s1) = 0;
-  virtual void getS2(std::vector<int> &s2) = 0;
-  virtual void setS1(const std::vector<int> &s1) = 0;
-  virtual void setS2(const std::vector<int> &s2) = 0;
+  virtual void getS(std::pair<std::vector<int>, std::vector<int> > &s) = 0;
+  virtual void setS(const std::pair<std::vector<int>, std::vector<int> > &s) = 0;
 };
 
 std::ostream & operator << (std::ostream &out, PackingCommand &pcmd);

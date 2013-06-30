@@ -15,10 +15,14 @@ public:
   void interpretToLayout(Layout &layout);
   void dump(std::ostream &out);
   void next();
-  void getS1(std::vector<int> &s1) { s1 = m_s1; }
-  void getS2(std::vector<int> &s2) { s2 = m_s2; }
-  void setS1(const std::vector<int> &s1) { m_s1 = s1; }
-  void setS2(const std::vector<int> &s2) { m_s2 = s2; }
+  void getS(std::pair<std::vector<int>, std::vector<int> > &s) {
+      s.first = m_s1;
+      s.second = m_s2;
+  }
+  void setS(const std::pair<std::vector<int>, std::vector<int> > &s) {
+      m_s1 = s.first;
+      m_s2 = s.second;
+  }
 
 protected:
   void change(std::vector<int> &m_s);
