@@ -12,15 +12,21 @@ public:
         packing_stragety_ = ps;
     }
     SLT(const SLT &slt) : packing_strategy_(NULL) {
-        names_ = slt.names_;
-        orientations_ = slt.orientations_;
-        T_junctions_ = slt.T_junctions_;
+        *this = slt;
     }
     ~SLT() {
         delete packing_strategy_;
     }
     PackingStrategy* getPackingStrategy() const {
         return packing_strategy_;
+    }
+    SLT& operator=(const SLT &slt) {
+        if (this == &slt)
+            return *this;
+        names_ = slt.names_;
+        orientations_ = slt.orientations_;
+        T_junctions_ = slt.T_junctions_;
+        return *this;
     }
 };  // class SLT
 }   // namespace CornerBlockList
