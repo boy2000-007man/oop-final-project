@@ -51,7 +51,7 @@ public:
             out << r.rects_[i] << std::endl;
         return out;
     }
-    int size() {
+    int size() const {
         return rects_.size();
     }
 };  // class Rects
