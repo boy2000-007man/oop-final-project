@@ -15,6 +15,12 @@ struct Rect {
     int top() const     { return lb.y+height;   }
     int getWidth() const   { return width;         }
     int getHeight() const  { return height;        }
+    double getArea() const  { return width * height;    }
+    void transpose() {
+        int tmp = width;
+        width = height;
+        height = tmp;
+    }
     void set(const int &x, const int &y) {
         lb = Point(x, y);
     }
@@ -53,6 +59,12 @@ public:
     }
     int size() const {
         return rects_.size();
+    }
+    double rectsArea() const {
+        double rects_area = 0;
+        for (int i = 0; i < rects_.size(); i++)
+            rects_area += rects_[i].getArea();
+        return rects_area;
     }
 };  // class Rects
 }   // namespace CornerBlockList

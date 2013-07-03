@@ -13,7 +13,7 @@
 #include <ctime>
 #include <cmath>
 #include <climits>
-#define STD_IN
+#define STD_IN  // remove this to read from file "in.txt"
 namespace CornerBlockList {
 double random() {
     return (std::rand() % 999 + 1.0) / 1000;
@@ -31,31 +31,39 @@ int main() {
     fin.close();
 #endif
 
+    CornerBlockList::SLT slt;
+    CornerBlockList::SLT slt_best = slt, slt_tmp = slt;
+
+    // start simulated annealing
     const double T_max = pow(CornerBlockList::SLT::rects_.size(), 2);
     const double T_min = 1;
-    const double r = 0.9999;
-    CornerBlockList::SLT slt;
-    const double factor = T_max / slt.compArea();
-    CornerBlockList::SLT slt_best = slt, slt_tmp = slt;
+    const double r = 0.99;
+    const double factor = T_max / CornerBlockList::SLT::rects_.rectsArea();
+    const int T_Num = CornerBlockList::SLT::rects_.size();
     for (double T = T_max, J1 = slt.compArea(), J_best = INT_MAX; T > T_min; T *= r) {
-        slt.change(rand() % 3);
-        double J2 = slt.compArea();
-        double dE = (J1 - J2) * factor;
+        for (int i = 0; i < T_Num; i++) {
+            slt.change(rand() % 3);
+            double J2 = slt.compArea();
+            double dE = (J1 - J2) * factor;
 
-        if (exp(dE / T) < CornerBlockList::random()) {
-            slt = slt_tmp;
-        } else {
-            slt_tmp = slt;
-            J1 = J2;
-            if (J_best > J1) {
-                J_best = J1;
-                slt_best = slt;
+            if (exp(dE / T) < CornerBlockList::random()) {
+                slt = slt_tmp;
+            } else {
+                slt_tmp = slt;
+                J1 = J2;
+                if (J_best > J1) {
+                    J_best = J1;
+                    slt_best = slt;
+                }
             }
         }
     }
+    // finish simulated annealing
 
-    cout << "全局较优解：" << slt_best.compArea() << endl;
-    //cout << CornerBlockList::SLT::rects_ << endl;
+    cout << "全局较优解：" << CornerBlockList::SLT::rects_.rectsArea() / slt_best.compArea()
+        << "[" << CornerBlockList::SLT::rects_.rectsArea() << "/" << slt_best.compArea() << "]" << endl;
+    // cout << CornerBlockList::SLT::rects_ << endl;    // this will show the rectangles' position
+    // test if overlap exists
     CornerBlockList::findOverlap();
 
     return 0;
