@@ -37,10 +37,12 @@ int main() {
     // start simulated annealing
     const double T_max = pow(CornerBlockList::SLT::rects_.size(), 2);
     const double T_min = 1;
-    const double r = 0.99;
-    const double factor = T_max / CornerBlockList::SLT::rects_.rectsArea();
+    const double r = 0.999;
+    const double factor = pow(CornerBlockList::SLT::rects_.size(), 3.5) / CornerBlockList::SLT::rects_.rectsArea();
     const int T_Num = CornerBlockList::SLT::rects_.size();
     for (double T = T_max, J1 = slt.compArea(), J_best = INT_MAX; T > T_min; T *= r) {
+        if (rand() % (T_Num * (int)T_max) == 0)
+            slt.change(rand() % 4);
         for (int i = 0; i < T_Num; i++) {
             slt.change(rand() % 3);
             double J2 = slt.compArea();
@@ -62,9 +64,9 @@ int main() {
 
     cout << "全局较优解：" << CornerBlockList::SLT::rects_.rectsArea() / slt_best.compArea()
         << "[" << CornerBlockList::SLT::rects_.rectsArea() << "/" << slt_best.compArea() << "]" << endl;
-    // cout << CornerBlockList::SLT::rects_ << endl;    // this will show the rectangles' position
     // test if overlap exists
     CornerBlockList::findOverlap();
+    // cout << CornerBlockList::SLT::rects_ << endl;    // this will show the rectangles' position
 
     return 0;
 }
