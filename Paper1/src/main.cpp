@@ -15,7 +15,7 @@
 #include <ctime>
 #include <cmath>
 #include <climits>
-#define STD_IN
+#define STD_IN  // remove this to read from "in.txt"
 using namespace std;
 namespace sdk {
 double random() {
@@ -40,18 +40,16 @@ int main() {
     layout.getPackingStrategy()->getPackingCommand()->getS(s_best);
     pair<vector<int>, vector<int> > s = s_best;
 
+    // start simulated annealing
     const double T_max = pow(layout.getRectNum(), 2);
     const double T_min = 1;
     const double r = 0.99;
-    const double factor = T_max / layout.rectsArea();
+    const double factor = pow(layout.getRectNum(), 2.5) / layout.rectsArea();
     const int T_Num = layout.getRectNum();
     for (double T = T_max, J1 = layout.compArea(), J_best = INT_MAX; T > T_min; T *= r) {
+        if (rand() % (int)T_max == 0)
+            layout.getPackingStrategy()->nextPackingCommand(layout, (T / T_max > sdk::random()) ? 1 : 2);
         for (int i = 0; i < T_Num; i++) {
-            /*int mode = rand() % layout.getRectNum();
-            if (mode == -1)
-                mode = (T / T_max > sdk::random()) ? 1 : 2;
-            else
-                mode = 0;*/
             layout.getPackingStrategy()->nextPackingCommand(layout, 0);
             layout.getPackingStrategy()->compPackingLayout(layout);
             double J2 = layout.compArea();
@@ -69,13 +67,15 @@ int main() {
             }
         }
     }
+    // finish simulated annealing
 
     layout.getPackingStrategy()->getPackingCommand()->setS(s_best);
     layout.getPackingStrategy()->compPackingLayout(layout);
-//    cout << layout << endl;
     cout << "全局较优解：" << layout.rectsArea() / layout.compArea()
         << "[" << layout.rectsArea() << "/" << layout.compArea() << "]" << endl;
+    // test if exist overlaps
     sdk::findOverlap(layout);
+    // cout << layout << endl;  // this will show the rectangles' position
 
     return 0;
 }
