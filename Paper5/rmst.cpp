@@ -28,9 +28,9 @@ bool cmp(const Edge &e1, const Edge &e2) {
     return (e1.Mandist < e2.Mandist) || (e1.Mandist == e2.Mandist && e1.Eucdist < e2.Eucdist);
 }
 int find(int root[], const int &leaf) {             // used to find and renew specific leaf's root
-    while (root[leaf] != root[root[leaf]])
-        root[leaf] = root[root[leaf]];
-    return root[leaf];
+    if (leaf == root[leaf])
+        return leaf;
+    return root[leaf] = find(root, root[leaf]);
 }
 }   // namespace Guo
 
@@ -40,7 +40,7 @@ void RMST(const V_Position &vertex, V_Edge &edge, V_Face &face)  // You can modi
     cerr << "assert vertex, edge and face..." << endl;
     assert(vertex.size() > 0);
     assert(edge.size() > 0);
-    for (int i = 0; i < edge.size() - 1; i++)
+    for (int i = 0; i < edge.size(); i++)
         assert(edge[i].size() > 0);
     assert(face.size() > 0);
     cerr << "assert finished." << endl;

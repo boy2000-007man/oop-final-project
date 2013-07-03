@@ -41,8 +41,6 @@ int main() {
     const double factor = pow(CornerBlockList::SLT::rects_.size(), 3.5) / CornerBlockList::SLT::rects_.rectsArea();
     const int T_Num = CornerBlockList::SLT::rects_.size();
     for (double T = T_max, J1 = slt.compArea(), J_best = INT_MAX; T > T_min; T *= r) {
-        if (rand() % (T_Num * (int)T_max) == 0)
-            slt.change(rand() % 4);
         for (int i = 0; i < T_Num; i++) {
             slt.change(rand() % 3);
             double J2 = slt.compArea();
