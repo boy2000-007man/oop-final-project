@@ -7,10 +7,11 @@ namespace RECTPACKING {
 
 struct Rect
 {
-    int left() { return lb.x; }
-    int right() { return lb.x+width; }
-    int bottom() { return lb.y; }
-    int top() { return lb.y+height; }
+    int left()      { return lb.x;              }
+    int right()     { return lb.x+width;        }
+    int bottom()    { return lb.y;              }
+    int top()       { return lb.y+height;       }
+    double Area()   { return width * height;    }
     int width;
     int height;
     Point lb;

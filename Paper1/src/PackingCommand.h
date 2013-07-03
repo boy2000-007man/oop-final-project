@@ -14,7 +14,7 @@ public:
   virtual ~PackingCommand() {}
   virtual void interpretToLayout(Layout &layout) = 0;
   virtual void dump(std::ostream &out) = 0;
-  virtual void next() = 0;
+  virtual void next(Layout &layout, const int &mode) = 0;
   virtual void getS(std::pair<std::vector<int>, std::vector<int> > &s) = 0;
   virtual void setS(const std::pair<std::vector<int>, std::vector<int> > &s) = 0;
 };

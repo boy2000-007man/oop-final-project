@@ -14,7 +14,7 @@ public:
   }
   virtual void initialPacking(Layout &layout) = 0;
   virtual void compPackingLayout(Layout &layout) = 0;
-  virtual void nextPackingCommand() = 0;
+  virtual void nextPackingCommand(Layout &layout, const int &mode) = 0;
   PackingCommand *getPackingCommand() { return m_pCommand; }
   void setPackingCommand(PackingCommand *c) { 
     if (m_pCommand)

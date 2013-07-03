@@ -13,15 +13,11 @@ void SPPackingStrategy::initialPacking(Layout &layout)
   if (rectNum < 2)
       return;
 
-  vector<int> s1, s2;
+  vector<int> s;
   for (int i = 0; i < rectNum; ++ i)
-  {
-    s1.push_back(i);
-  }
-  s2 = s1;
-  random_shuffle(s1.begin(), s1.end());
-  random_shuffle(s2.begin(), s2.end());
-  SPPackingCommand *spcmd = new SPPackingCommand(s1, s2);
+    s.push_back(i);
+  random_shuffle(s.begin(), s.end());
+  SPPackingCommand *spcmd = new SPPackingCommand(s, s);
   #ifdef __OUT__
   cout << "Packing Command in SPPackingStrategy::initialPacking" << endl;
   cout << *spcmd;
@@ -35,11 +31,11 @@ void SPPackingStrategy::initialPacking(Layout &layout)
   #endif
 }
 
-void SPPackingStrategy::nextPackingCommand()
+void SPPackingStrategy::nextPackingCommand(Layout &layout, const int &mode)
 {
   if (m_pCommand)
   {
-    m_pCommand->next();
+    m_pCommand->next(layout, mode);
   }
 }
 

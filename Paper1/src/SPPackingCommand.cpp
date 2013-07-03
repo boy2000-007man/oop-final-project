@@ -6,6 +6,7 @@
 #include "SPPackingCommand.h"
 #include "GraphPacking.h"
 #include "Layout.h"
+#include "Rect.h"
 
 namespace RECTPACKING {
 using namespace std;
@@ -49,26 +50,37 @@ void SPPackingCommand::interpretToLayout(Layout &layout)
   LongestGraphPacking(horCons, verCons, layout);
 }
 
-void SPPackingCommand::change(vector<int> &m_s)
+void SPPackingCommand::next(Layout &layout, const int &mode)
 {
-  int size = m_s.size();
-  int i1 = rand() % size;
-  int i2 = rand() % size;
-  while (i1 == i2)
-  {
-    i2 = rand() % size;
-  }
-  int tmp = m_s[i1];
-  m_s[i1] = m_s[i2];
-  m_s[i2] = tmp;
-}
-
-void SPPackingCommand::next()
-{
-  if (rand() % 2)
-    change(m_s1);
-  else
-    change(m_s2);
+    const int size = m_s1.size();
+    switch (mode) {
+        case 0: {
+                    const int i1 = rand() % size;
+                    int i2;
+                    while ((i2 = rand() % size) == i1);
+                    int tmp = m_s1[i1];
+                    m_s1[i1] = m_s1[i2];
+                    m_s1[i2] = tmp;
+                }
+            break;
+        case 1: {
+                    const int i1 = rand() % size;
+                    int i2;
+                    while ((i2 = rand() % size) == i1);
+                    vector<Rect> &rects = layout.getRects();
+                    Rect tmp = rects[i1];
+                    rects[i1] = rects[i2];
+                    rects[i2] = tmp;
+                }
+            break;
+        case 2: {
+                    Rect &rect = layout.getRect(rand() % size);
+                    int tmp = rect.width;
+                    rect.width = rect.height;
+                    rect.height = tmp;
+                }
+            break;
+    }
 }
 
 void SPPackingCommand::dump(ostream &out)

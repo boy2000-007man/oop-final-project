@@ -5,7 +5,7 @@
 namespace RECTPACKING {
 using namespace std;
 
-float Layout::compArea()
+double Layout::compArea()
 {
     int lX = INT_MAX, rX = INT_MIN, bY = INT_MAX, tY = INT_MIN;
     for (int i = 0; i < (int)m_rects.size(); ++ i)

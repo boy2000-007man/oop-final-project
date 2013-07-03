@@ -15,7 +15,7 @@ public:
   ~SPPackingStrategy() {}
   void initialPacking(Layout &layout);
   void compPackingLayout(Layout &layout);
-  void nextPackingCommand();
+  void nextPackingCommand(Layout &layout, const int &mode);
 };
 
 }

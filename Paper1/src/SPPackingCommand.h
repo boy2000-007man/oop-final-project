@@ -14,7 +14,7 @@ public:
   ~SPPackingCommand() {}
   void interpretToLayout(Layout &layout);
   void dump(std::ostream &out);
-  void next();
+  void next(Layout &layout, const int &mode);
   void getS(std::pair<std::vector<int>, std::vector<int> > &s) {
       s.first = m_s1;
       s.second = m_s2;
@@ -25,8 +25,6 @@ public:
   }
 
 protected:
-  void change(std::vector<int> &m_s);
-  
   std::vector<int> m_s1;
   std::vector<int> m_s2;
 };

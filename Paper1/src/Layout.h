@@ -29,7 +29,13 @@ public:
   void compConstraints(std::vector<std::pair<int, int> > &horCons, std::vector<std::pair<int, int> > &verCons);
   friend std::ostream & operator << (std::ostream &out, Layout &l);
   friend std::istream & operator >> (std::istream &in, Layout &l);
-  float compArea();
+  double compArea();
+  double rectsArea() {
+      double rects_area = 0;
+      for (int i = 0; i < m_rects.size(); i++)
+          rects_area += m_rects[i].Area();
+      return rects_area;
+  }
 
 private:
   std::vector<Rect> m_rects;
